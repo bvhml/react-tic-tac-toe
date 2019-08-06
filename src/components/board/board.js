@@ -1,17 +1,42 @@
 import React from 'react';
 import Square from '../square/square'
 
+
 class Board extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isXturn : true,
+            squares: Array(9).fill(null),
+        };
+    }
+
+     handleClick(i){
+        
+        if (!this.state.squares[i]) {
+            const squares = this.state.squares.slice();
+            let tValue = this.state.isXturn ? "X" : "Y";
+            squares[i] = tValue;
+        
+            this.setState({
+                isXturn: !this.state.isXturn , 
+                squares: squares,  
+            });
+        }
+    }
+
+
     renderSquare(i) {
-      return <Square value={i} />;
+      return <Square value={this.state.squares[i]} onClick={() => {this.handleClick(i)}}/>;
     }
   
     render() {
-      const status = 'Next player: X';
+      const status = 'Next player: ';
   
       return (
         <div>
-          <div className="status">{status}</div>
+          <div className="status">{status + (this.state.isXturn ? "X" : "Y")}</div>
           <div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
