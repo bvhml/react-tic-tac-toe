@@ -12,11 +12,15 @@ class Board extends React.Component {
         };
     }
 
-     handleClick(i){
-        
+    playerTurn () {
+        return this.state.isXturn ? "X" : "O";
+     }
+
+    handleClick(i){
+    
         if (!this.state.squares[i]) {
             const squares = this.state.squares.slice();
-            let tValue = this.state.isXturn ? "X" : "Y";
+            let tValue = this.playerTurn();
             squares[i] = tValue;
         
             this.setState({
@@ -30,13 +34,15 @@ class Board extends React.Component {
     renderSquare(i) {
       return <Square value={this.state.squares[i]} onClick={() => {this.handleClick(i)}}/>;
     }
+
+    
   
     render() {
       const status = 'Next player: ';
   
       return (
         <div>
-          <div className="status">{status + (this.state.isXturn ? "X" : "Y")}</div>
+          <div className="status">{status + (this.playerTurn())}</div>
           <div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
